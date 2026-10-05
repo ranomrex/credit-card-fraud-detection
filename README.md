@@ -39,7 +39,21 @@ Assumptions: 150 EUR per missed fraud, 10 EUR per genuine customer wrongly block
 
 **Recommendation:** XGBoost at a low threshold (0.02 to 0.05). It cuts fraud cost by 79% vs no model while blocking only 0.05% of genuine customers. Cost is stable across 0.01 to 0.10, so the choice is robust.
 
-## Limitations and Next Steps
-- Only 148 test frauds, so results may vary across splits. Next: cross-validation.
-- V14 drives 75% of XGBoost's decisions; reliance on one feature should be monitored for drift.
-- Cost assumptions drive the threshold; next: sensitivity analysis across cost ratios.
+## Robustness Checks
+**Cross-validation:** 5-fold stratified CV gives XGBoost a PR-AUC of 0.845 ± 0.030 (range 0.80 to 0.88), so the single-split result is not a lucky draw.
+
+**Cost sensitivity:** the best threshold shifts with the cost of blocking a genuine customer, but savings stay large.
+
+| Missed fraud : blocked customer | Best threshold | Fraud caught | Genuine blocked | Cost (EUR) |
+|---|---|---|---|---|
+| 30:1 | 0.03 | 120 | 39 | 4,395 |
+| 15:1 | 0.03 | 120 | 39 | 4,590 |
+| 6:1 | 0.07 | 118 | 21 | 5,025 |
+| 3:1 | 0.13 | 116 | 14 | 5,500 |
+| 2:1 | 0.13 | 116 | 14 | 5,850 |
+
+At every ratio, cost stays 74 to 80% below no model (22,200 EUR).
+
+## Limitations
+- V14 drives 75% of XGBoost's decisions; reliance on one feature should be monitored for drift as fraud tactics change.
+- Data covers two days of European transactions from 2013, so patterns may differ today.
