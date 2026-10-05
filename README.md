@@ -25,7 +25,7 @@ Credit Card Fraud Detection (ULB, Kaggle): 284,807 European card transactions, 4
 
 Same ROC-AUC, very different PR-AUC. At a 0.5 threshold, logistic regression blocked 1,999 genuine customers; XGBoost blocked 7.
 
-![PR curve](download (1).png)
+![PR curve](img.png)
 
 ## Threshold Strategy
 Assumptions: 150 EUR per missed fraud, 10 EUR per genuine customer wrongly blocked.
