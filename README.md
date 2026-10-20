@@ -10,6 +10,18 @@ Credit Card Fraud Detection (ULB, Kaggle): 284,807 European card transactions, 4
 - Transactions of 2 EUR or less are 3.3x more likely to be fraud, consistent with card testing.
 - Median fraud amount is 9.25 vs 22 for genuine transactions.
 
+## Statistical Test: Night vs Day Fraud Rate
+I tested whether the night peak is real or could be chance, using a two-proportion z-test and a chi-square test (alpha = 0.05).
+
+| Period | Fraud cases | Transactions | Fraud rate |
+|---|---|---|---|
+| Night (hours 1 to 7) | 150 | 27,583 | 0.544% |
+| Rest of day | 342 | 257,224 | 0.133% |
+
+- Night fraud rate is 4.09x the daytime rate, a gap of 0.41 percentage points (95% CI 0.32 to 0.50).
+- z = 15.62, chi-square = 243.8, p < 0.001 for both, so I reject the hypothesis that the rates are equal.
+- `Time` is seconds since the first transaction, so reading it as clock time is an assumption. It is supported by volume: hours 1 to 7 are exactly the 7 quietest hours of the day.
+
 ## Approach
 1. Engineered features: night flag, small transaction flag, log amount.
 2. Stratified 70/30 split.
